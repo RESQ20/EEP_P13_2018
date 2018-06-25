@@ -1,0 +1,15 @@
+C:\Users\donal\source\repos\Cognitive-Speech-STT-Windows-master\samples\SpeechRecognitionServiceExample\obj\x86\Release\SpeechToText-WPF-Sample-x86.csprojAssemblyReference.cache
+C:\Users\donal\source\repos\Cognitive-Speech-STT-Windows-master\samples\SpeechRecognitionServiceExample\obj\x86\Release\MainWindow.baml
+C:\Users\donal\source\repos\Cognitive-Speech-STT-Windows-master\samples\SpeechRecognitionServiceExample\obj\x86\Release\MainWindow.g.cs
+C:\Users\donal\source\repos\Cognitive-Speech-STT-Windows-master\samples\SpeechRecognitionServiceExample\obj\x86\Release\App.g.cs
+C:\Users\donal\source\repos\Cognitive-Speech-STT-Windows-master\samples\SpeechRecognitionServiceExample\obj\x86\Release\SpeechToText-WPF-Sample_Content.g.cs
+C:\Users\donal\source\repos\Cognitive-Speech-STT-Windows-master\samples\SpeechRecognitionServiceExample\obj\x86\Release\SpeechToText-WPF-Sample_MarkupCompile.cache
+C:\Users\donal\source\repos\Cognitive-Speech-STT-Windows-master\samples\SpeechRecognitionServiceExample\obj\x86\Release\SpeechToText-WPF-Sample.g.resources
+C:\Users\donal\source\repos\Cognitive-Speech-STT-Windows-master\samples\SpeechRecognitionServiceExample\obj\x86\Release\SpeechToText-WPF-Sample-x86.csproj.CoreCompileInputs.cache
+C:\Users\donal\source\repos\Cognitive-Speech-STT-Windows-master\samples\SpeechRecognitionServiceExample\bin\x86\Release\batman.wav
+C:\Users\donal\source\repos\Cognitive-Speech-STT-Windows-master\samples\SpeechRecognitionServiceExample\bin\x86\Release\whatstheweatherlike.wav
+C:\Users\donal\source\repos\Cognitive-Speech-STT-Windows-master\samples\SpeechRecognitionServiceExample\bin\x86\Release\SpeechToText-WPF-Sample.exe.config
+C:\Users\donal\source\repos\Cognitive-Speech-STT-Windows-master\samples\SpeechRecognitionServiceExample\bin\x86\Release\SpeechToText-WPF-Sample.exe
+C:\Users\donal\source\repos\Cognitive-Speech-STT-Windows-master\samples\SpeechRecognitionServiceExample\bin\x86\Release\SpeechClient.dll
+C:\Users\donal\source\repos\Cognitive-Speech-STT-Windows-master\samples\SpeechRecognitionServiceExample\obj\x86\Release\SpeechToText-WPF-Sample-x86.csproj.CopyComplete
+C:\Users\donal\source\repos\Cognitive-Speech-STT-Windows-master\samples\SpeechRecognitionServiceExample\obj\x86\Release\SpeechToText-WPF-Sample.exe

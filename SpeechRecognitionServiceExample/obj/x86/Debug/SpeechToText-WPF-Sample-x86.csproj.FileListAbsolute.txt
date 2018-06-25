@@ -1,0 +1,8 @@
+C:\Users\donal\source\repos\Cognitive-Speech-STT-Windows-master\samples\SpeechRecognitionServiceExample\obj\x86\Debug\SpeechToText-WPF-Sample-x86.csprojAssemblyReference.cache
+C:\Users\donal\source\repos\Cognitive-Speech-STT-Windows-master\samples\SpeechRecognitionServiceExample\obj\x86\Debug\MainWindow.baml
+C:\Users\donal\source\repos\Cognitive-Speech-STT-Windows-master\samples\SpeechRecognitionServiceExample\obj\x86\Debug\MainWindow.g.cs
+C:\Users\donal\source\repos\Cognitive-Speech-STT-Windows-master\samples\SpeechRecognitionServiceExample\obj\x86\Debug\App.g.cs
+C:\Users\donal\source\repos\Cognitive-Speech-STT-Windows-master\samples\SpeechRecognitionServiceExample\obj\x86\Debug\SpeechToText-WPF-Sample_Content.g.cs
+C:\Users\donal\source\repos\Cognitive-Speech-STT-Windows-master\samples\SpeechRecognitionServiceExample\obj\x86\Debug\SpeechToText-WPF-Sample_MarkupCompile.cache
+C:\Users\donal\source\repos\Cognitive-Speech-STT-Windows-master\samples\SpeechRecognitionServiceExample\obj\x86\Debug\SpeechToText-WPF-Sample.g.resources
+C:\Users\donal\source\repos\Cognitive-Speech-STT-Windows-master\samples\SpeechRecognitionServiceExample\obj\x86\Debug\SpeechToText-WPF-Sample-x86.csproj.CoreCompileInputs.cache
