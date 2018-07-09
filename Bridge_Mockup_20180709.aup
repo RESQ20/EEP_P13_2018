@@ -1,0 +1,85 @@
+<?xml version="1.0" standalone="no" ?>
+<!DOCTYPE project PUBLIC "-//audacityproject-1.3.0//DTD//EN" "http://audacity.sourceforge.net/xml/audacityproject-1.3.0.dtd" >
+<project xmlns="http://audacity.sourceforge.net/xml/" projname="Bridge_Mockup_20180709_data" version="1.3.0" audacityversion="2.2.2" sel0="11.4938775510" sel1="11.4938775510" vpos="48" h="0.0000000000" zoom="43.0664062500" rate="44100.0" snapto="off" selectionformat="hh:mm:ss + milliseconds" frequencyformat="Hz" bandwidthformat="octaves">
+	<tags/>
+	<wavetrack name="Don Rowland HOST" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" isSelected="1" rate="44100" gain="1.0" pan="0.0" colorindex="0">
+		<waveclip offset="0.00000000" colorindex="0">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="217088">
+				<waveblock start="0">
+					<simpleblockfile filename="e0808134.au" len="217088" min="-0.933044" max="0.747833" rms="0.101332"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+		<waveclip offset="4.92263039" colorindex="0">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="424859">
+				<waveblock start="0">
+					<silentblockfile len="262144"/>
+				</waveblock>
+				<waveblock start="262144">
+					<simpleblockfile filename="e0808fd1.au" len="162715" min="-0.418823" max="0.438812" rms="0.044736"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="Jeff Ross - Caller 1" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" isSelected="0" rate="44100" gain="1.0" pan="0.0" colorindex="0">
+		<waveclip offset="5.54956916" colorindex="0">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="157696">
+				<waveblock start="0">
+					<simpleblockfile filename="e08088a7.au" len="157696" min="-0.82534" max="0.999952" rms="0.082655"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="Andrew Staley - Caller 2" channel="2" linked="0" mute="1" solo="0" height="150" minimized="0" isSelected="0" rate="44100" gain="1.0" pan="0.0" colorindex="0">
+		<waveclip offset="0.00000000" colorindex="0">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="581403">
+				<waveblock start="0">
+					<silentblockfile len="262144"/>
+				</waveblock>
+				<waveblock start="262144">
+					<simpleblockfile filename="e08085f0.au" len="256411" min="-0.849548" max="0.853119" rms="0.158931"/>
+				</waveblock>
+				<waveblock start="518555">
+					<simpleblockfile filename="e080841f.au" len="62848" min="-0.03421" max="0.035767" rms="0.004319"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+		<waveclip offset="13.18374150" colorindex="0">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="186112">
+				<waveblock start="0">
+					<simpleblockfile filename="e08088e0.au" len="186112" min="-0.813171" max="0.598907" rms="0.075038"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="1">
+				<controlpoint t="0.446371882086" val="1.000000000000"/>
+			</envelope>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="Wizy Wong - Caller 3" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" isSelected="0" rate="44100" gain="1.0" pan="0.0" colorindex="0">
+		<waveclip offset="0.00000000" colorindex="0">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="489472">
+				<waveblock start="0">
+					<silentblockfile len="250880"/>
+				</waveblock>
+				<waveblock start="250880">
+					<simpleblockfile filename="e0808291.au" len="238592" min="-0.516113" max="0.481812" rms="0.070218"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="Thomas Eaton - Caller 4" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" isSelected="0" rate="44100" gain="1.0" pan="0.0" colorindex="0">
+		<waveclip offset="5.38702948" colorindex="0">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="251904">
+				<waveblock start="0">
+					<simpleblockfile filename="e0808bd2.au" len="251904" min="-0.701813" max="0.722992" rms="0.129243"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+</project>
