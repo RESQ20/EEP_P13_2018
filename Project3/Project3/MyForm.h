@@ -1,10 +1,11 @@
 #pragma once
+#include <Python.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
 #include <fstream>
 #include <time.h>
-//#include <Python.h>
+
 
 
 namespace Project3 {
@@ -30,6 +31,7 @@ namespace Project3 {
 			//
 			int main(int);
 			
+			
 		}
 
 	protected:
@@ -54,6 +56,7 @@ namespace Project3 {
 
 	private: System::Windows::Forms::RichTextBox^  richTextBox1;
 	private: System::Windows::Forms::RichTextBox^  richTextBox2;
+	private: System::Windows::Forms::Button^  button4;
 
 
 	private:
@@ -77,6 +80,7 @@ namespace Project3 {
 			this->button3 = (gcnew System::Windows::Forms::Button());
 			this->richTextBox1 = (gcnew System::Windows::Forms::RichTextBox());
 			this->richTextBox2 = (gcnew System::Windows::Forms::RichTextBox());
+			this->button4 = (gcnew System::Windows::Forms::Button());
 			this->SuspendLayout();
 			// 
 			// label1
@@ -155,12 +159,23 @@ namespace Project3 {
 			this->richTextBox2->TabIndex = 9;
 			this->richTextBox2->Text = L"";
 			// 
+			// button4
+			// 
+			this->button4->Location = System::Drawing::Point(1140, 22);
+			this->button4->Name = L"button4";
+			this->button4->Size = System::Drawing::Size(163, 51);
+			this->button4->TabIndex = 10;
+			this->button4->Text = L"EXIT";
+			this->button4->UseVisualStyleBackColor = true;
+			this->button4->Click += gcnew System::EventHandler(this, &MyForm::button4_Click);
+			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(12, 25);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->AutoSize = true;
 			this->ClientSize = System::Drawing::Size(1338, 985);
+			this->Controls->Add(this->button4);
 			this->Controls->Add(this->richTextBox2);
 			this->Controls->Add(this->richTextBox1);
 			this->Controls->Add(this->button3);
@@ -207,32 +222,109 @@ namespace Project3 {
 	}
 private: System::Void button2_Click(System::Object^  sender, System::EventArgs^  e) {
 	
+	using namespace std;
+	using namespace System::IO;
+
 	String ^ err2 = "Error in reading transcript file to display!";
 
-	String ^ in4 = "Pretend opening wav file and then do transcription...??? (Pending Andy's coding)\r\n";
-	String ^ in5 = "Run python program to do speech to text and write the transcript to a file\r\n";
-	String ^ in6 = "C++ to open the file and display";
-	
+	String ^ in4 = "Pretend opening wav file and then run Python program to do transcription...??? (Pending Andy's coding)\r\n";
 	textBox1->Text = in4;
-	textBox1->Text = textBox1->Text + in5;
-	textBox1->Text = textBox1->Text + in6;
+	
+	
 
-	using namespace std;
 
-	int res = system("/EEP-P13/IM-Proj/python read_n_display.py");
-	if (res != 0) {
-	//	textBox1->Text = err2;
-	//	cout << res;
+	//Call Python program and return Python Object
+	PyObject *pName, *pModule, *pDict, *pFunc, *pValue;
+	String ^ returnFileName;
+
+	//Initialize the Python Interpreter
+	Py_Initialize();
+
+	//Build the name object
+	char* pyFileName2 = "read_n_display";
+	//textBox1->Text = gcnew String(pyFileName2);
+	pName = PyUnicode_FromString(pyFileName2);
+
+	//Load the module object
+	pModule = PyImport_Import(pName);
+	if (pModule)
+	{
+		//textBox1->Text = textBox1->Text + "\r\npModule well imported";
+	}
+	else {
+		textBox1->Text = textBox1->Text + "ERROR: pModule not imported";
+		//exit(1);
 	}
 
-	string pyFileName = "/EEP-P13/IM-Proj/read_n_display.py";
-	string pyCommand = "python ";
-	pyCommand += pyFileName;
-	system(pyCommand.c_str());
 
-	using namespace System::IO;
-	String ^ tranFileName = "/EEP-P13/IM-Proj/Sample_transcript.txt";
-	StreamReader^ sr = gcnew StreamReader(tranFileName);
+	//pDict is a borrowed reference
+	//PyObject *err = PyDict_GetItemString(PyModule_GetDict(pModule), "SpecialisedError");
+	//if (err) {
+	//	PyErr_Format(err, "One %d two %d three %d.", 1, 2, 3);
+	//}
+	//else {
+	//	PyErr_SetString(PyExc_RuntimeError, "Can not find exception in module");
+	//}
+
+	//if (pDict == nullptr)
+	//{
+	//	PyErr_Print();
+	//	textBox1->Text = textBox1->Text + "null pDict";
+	//	//exit(1);
+	//}
+
+	//pFunc is also a borrowed reference
+	pFunc = PyObject_GetAttrString(pModule, "getFileName");
+	if (pFunc && PyCallable_Check(pFunc))
+	{
+		//textBox1->Text = textBox1->Text + "\r\npFunc well ready";
+		pValue = PyObject_CallObject(pFunc, NULL);
+		if (pValue) {
+			//textBox1->Text = textBox1->Text + "\r\nValue well returned";
+			//textBox1->Text = textBox1->Text + " " + PyLong_AsLong(pValue);
+			String ^ in5 = "Python write transcripts to a file and return filename: ";
+			textBox1->Text = textBox1->Text + in5;
+
+			returnFileName = gcnew String(PyUnicode_AsUnicode(pValue));
+			textBox1->Text = textBox1->Text + returnFileName + "\r\n";
+
+		}
+		//PyUnicode_FromString(pValue);
+		//PyBytes_AsString(pValue);
+	}
+	else {
+		textBox1->Text = textBox1->Text + "ERROR: pFunc not ready";
+		//exit(1);
+	}
+	//pFunc = PyDict_GeItemString(pDict, NULL);
+
+	Py_DECREF(pModule);
+	Py_DECREF(pName);
+
+	Py_Finalize();
+
+
+
+	//C++ OPEN IO and DISPLAY
+
+	//System call
+	//int res = system("/EEP-P13/IM-Proj/python read_n_display.py");
+	//if (res != 0) {
+	//	textBox1->Text = err2;
+	//	cout << res;
+	//}
+
+	//System call with command line
+	//string pyFileName = "/EEP-P13/IM-Proj/read_n_display.py";
+	//string pyCommand = "python ";
+	//pyCommand += pyFileName;
+	//system(pyCommand.c_str());
+
+	String ^ in6 = "C++ to open the file and display, filename: ";
+	textBox1->Text = textBox1->Text + in6 + returnFileName;
+	
+	//String ^ tranFileName = "/EEP-P13/IM-Proj/Sample_transcript.txt";
+	StreamReader^ sr = gcnew StreamReader(returnFileName);
 	String ^ tranStr;
 	
 	while ((tranStr = sr->ReadLine()) != nullptr)
@@ -246,28 +338,6 @@ private: System::Void button2_Click(System::Object^  sender, System::EventArgs^ 
 	//sw->Close();
 
 
-	//PyObject *pName, *pModule, *pDict, *pFunc, *pValue;
-
-	//Initialize the Python Interpreter
-	//Py_Initialize();
-
-	//Build the name object
-	//pName = PyString_FromString(pyFileName);
-
-	//Load the module object
-	//pModule = PyImport_Import(pName);
-
-	//pDict is a borrowed reference
-	//pDict = PyModule_GetDict(pModule);
-
-	//pFunc is also a borrowed reference
-	//pFunc = PyDict_GeItemString(pDict, )
-	//PyObject_CallObject(pFunc, NULL);
-
-	//Py_DECREF(pModule);
-	//Py_DECREF(pName);
-
-	//Py_Finalize();
 }
 private: System::Void button3_Click(System::Object^  sender, System::EventArgs^  e) {
 	textBox1->Text = "Stop is pressed.  Thank you!";
@@ -278,6 +348,9 @@ private: System::Void button3_Click(System::Object^  sender, System::EventArgs^ 
 private: System::Void button1_Enter(System::Object^  sender, System::EventArgs^  e) {
 }
 private: System::Void button1_MouseMove(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
+}
+private: System::Void button4_Click(System::Object^  sender, System::EventArgs^  e) {
+	exit(0);
 }
 };
 }

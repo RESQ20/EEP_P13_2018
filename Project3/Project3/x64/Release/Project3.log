@@ -1,0 +1,5 @@
+﻿  MyForm.cpp
+c:\users\wisy\source\repos\project3\project3\myform.h(188): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17134.0\ucrt\time.h(506): note: see declaration of 'localtime'
+  .NETFramework,Version=v4.6.1.AssemblyAttributes.cpp
+LINK : fatal error LNK1104: cannot open file 'python36.lib'
