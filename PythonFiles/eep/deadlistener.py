@@ -122,15 +122,29 @@ filename = "recordedaudio" + str(filecount) + ".wav"
 
 
 waveFile = wave.open(filename, 'wb')
-waveFile.setnchannels(1)
+waveFile.setnchannels(channelcount)
 waveFile.setsampwidth(p.get_sample_size(pyaudio.paInt16))
 
 # in dropping audio to mono, we now have twice the number of frames expected, so a multiplier of 2 is now in below to stop everyone sounding like Barry White
 
-waveFile.setframerate(int(device_info["defaultSampleRate"])*2)
+waveFile.setframerate(int(device_info["defaultSampleRate"]))
 waveFile.writeframes(b''.join(recorded_frames))
 waveFile.close()
 
 filecount = filecount + 1
+
+
+from pydub import AudioSegment
+
+sound = AudioSegment.from_wav(filename)
+sound = sound.set_channels(1)
+sound.export(filename, format="wav")
+
 # end the recording loop here
 
+# non working code to call the transcription py file
+
+#os.chdir("..")
+#filelocationname = foldernametime +  "/" + filename
+#print(filelocationname)
+#os.system('transcribe_async_short_file3_44.py filelocationname')
