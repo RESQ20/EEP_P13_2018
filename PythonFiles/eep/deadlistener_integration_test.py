@@ -122,18 +122,25 @@ filename = "recordedaudio" + str(filecount) + ".wav"
 
 
 waveFile = wave.open(filename, 'wb')
-waveFile.setnchannels(1)
+waveFile.setnchannels(channelcount)
 waveFile.setsampwidth(p.get_sample_size(pyaudio.paInt16))
 
 # in dropping audio to mono, we now have twice the number of frames expected, so a multiplier of 2 is now in below to stop everyone sounding like Barry White
 
-waveFile.setframerate(int(device_info["defaultSampleRate"])*2)
+waveFile.setframerate(int(device_info["defaultSampleRate"]))
 waveFile.writeframes(b''.join(recorded_frames))
 waveFile.close()
 
 filecount = filecount + 1
 # end the recording loop here
 
+# convert to mono
+
+from pydub import AudioSegment
+
+sound = AudioSegment.from_wav(filename)
+sound = sound.set_channels(1)
+sound.export(filename, format="wav")
 
 
 
@@ -196,7 +203,7 @@ def transcribe_file(speech_file):
     print("enable_automatic_punctuation=False")
     print("enable_word_time_offsets=False")
     print("profanity_filter=True")
-    print("sample_rate=44100hz")
+    print("sample_rate=48000hz")
     print("")
     print("Transcript is as follows")
 
@@ -220,6 +227,11 @@ def transcribe_file(speech_file):
     operation = client.long_running_recognize(config, audio)
     # [END migration_async_request]
 
+    with open("output_transcription.txt", "a") as myfile:
+        myfile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+        myfile.write(' - Starting a new transcription.......\n')
+
+
     print('Waiting for operation to complete...')
     response = operation.result(timeout=90)
 
@@ -229,7 +241,17 @@ def transcribe_file(speech_file):
         # The first alternative is the most likely one for this portion.
         print(('Transcript: {}'.format(result.alternatives[0].transcript)))
         print(('Confidence: {}'.format(result.alternatives[0].confidence)))
+        with open("output_transcription.txt", "a") as myfile:
+                    myfile.write(('Transcript: {}'.format(result.alternatives[0].transcript))+ "\n")
+                    myfile.write(('Confidence: {}'.format(result.alternatives[0].confidence))+ "\n")
+    with open("output_transcription.txt", "a") as myfile:
+        myfile.write('Transcription ended due to keyword or lack of speech\n')
     # [END migration_async_response]
+
+
+
+
+        
 # [END def_transcribe_file]
 
 

@@ -51,7 +51,7 @@ def transcribe_file(speech_file):
     print("enable_automatic_punctuation=False")
     print("enable_word_time_offsets=False")
     print("profanity_filter=True")
-    print("sample_rate=44100hz")
+    print("sample_rate=48000hz")
     print("")
     print("Transcript is as follows")
 
