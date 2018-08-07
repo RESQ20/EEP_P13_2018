@@ -51,14 +51,14 @@ def transcribe_file(speech_file):
     print("enable_automatic_punctuation=False")
     print("enable_word_time_offsets=False")
     print("profanity_filter=True")
-    print("sample_rate=44100hz")
+    print("sample_rate=8000hz")
     print("")
     print("Transcript is as follows")
 
     audio = types.RecognitionAudio(content=content)
     config = types.RecognitionConfig(
         encoding=enums.RecognitionConfig.AudioEncoding.LINEAR16,
-        sample_rate_hertz=44100,
+        sample_rate_hertz=8000,
         language_code='en-US',
         use_enhanced=True,
         # A model must be specified to use enhanced model.
