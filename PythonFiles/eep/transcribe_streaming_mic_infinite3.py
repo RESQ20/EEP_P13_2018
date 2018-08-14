@@ -197,13 +197,13 @@ def listen_print_loop(responses):
                 num_chars_printed = 0
 
             if t_end < time.time():
-                print('Reached defined timeout, exiting.....')
+                #print('Reached defined timeout, exiting.....')
                 with open("output_transcription.txt", "a") as myfile:
-                    myfile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
-                    myfile.write(' - Transcription ended due to timeout\n')
-                    totaltime = time.time() - t_now
-                    myfile.write(str(totaltime))
-                    myfile.write('\n')
+                    #myfile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+                    #myfile.write(' - Transcription ended due to timeout\n')
+                    #totaltime = time.time() - t_now
+                    #myfile.write(str(totaltime))
+                    #myfile.write('\n')
 
                     main()
 #                    break

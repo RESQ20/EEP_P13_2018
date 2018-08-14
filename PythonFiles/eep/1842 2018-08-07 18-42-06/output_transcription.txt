@@ -1,8 +1,0 @@
-2018-08-07 18:42:32 - Starting a new transcription.......
-Transcript: as happy as him
-Confidence: 0.9124005436897278
-Transcript:  I live on the west coast my legs pretty good
-Confidence: 0.9426591992378235
-Transcript:  but these don't pity these kids they don't need that
-Confidence: 0.9072256684303284
-Transcription ended due to keyword or lack of speech
