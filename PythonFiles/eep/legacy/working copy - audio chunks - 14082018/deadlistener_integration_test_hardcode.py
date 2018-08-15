@@ -44,11 +44,8 @@ foldernametime = args.folderout
 reccount = args.reccount
 recordtime = args.chunksize
 
-if not os.path.exists("Audio_Output_"+foldernametime):
-    os.makedirs("Audio_Output_"+foldernametime)
-
-if not os.path.exists("Trans_Output_"+foldernametime):
-    os.makedirs("Trans_Output_"+foldernametime)
+if not os.path.exists(foldernametime):
+    os.makedirs(foldernametime)
 
 
 # print (args.folderout)
@@ -131,7 +128,7 @@ stream.close()
 #Close module
 p.terminate()
 
-os.chdir("Audio_Output_"+foldernametime)
+os.chdir(foldernametime)
 
 
 #filename = input("Save as [" + textcolors.blue + "out.wav" + textcolors.end + "]: ") or "out.wav"
@@ -245,8 +242,6 @@ def transcribe_file(speech_file):
     # [START migration_async_response]
     operation = client.long_running_recognize(config, audio)
     # [END migration_async_request]
-    os.chdir("..")
-    os.chdir("Trans_Output_"+foldernametime)
 
     with open("output_transcription.txt", "a") as myfile:
         myfile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S")+ "\n")
