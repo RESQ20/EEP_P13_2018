@@ -36,6 +36,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument("folderout")
 parser.add_argument("reccount")
 parser.add_argument("chunksize")
+parser.add_argument("samplerate")
 args = parser.parse_args()
 
 #foldernametime = args.folderout + " " + time.strftime("%Y-%m-%d %H-%M-%S")
@@ -229,7 +230,7 @@ def transcribe_file(speech_file):
     audio = types.RecognitionAudio(content=content)
     config = types.RecognitionConfig(
         encoding=enums.RecognitionConfig.AudioEncoding.LINEAR16,
-        sample_rate_hertz=44100,
+        sample_rate_hertz=int(args.samplerate),
         language_code='en-US',
         use_enhanced=True,
         # A model must be specified to use enhanced model.
