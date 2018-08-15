@@ -159,6 +159,7 @@ filecount = filecount + 1
 from pydub import AudioSegment
 AudioSegment.converter = r'C:\FFMpeg'
 sound = AudioSegment.from_wav(filename)
+sound = sound.set_frame_rate(44100)
 sound = sound.set_channels(1)
 sound.export(filename, format="wav")
 

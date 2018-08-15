@@ -12,14 +12,16 @@ from argparse import ArgumentParser
 parser = argparse.ArgumentParser()
 parser.add_argument("foldername")
 parser.add_argument("chunksize")
-parser.add_argument("samplerate")
+#parser.add_argument("samplerate")
 args = parser.parse_args()
+
+sample = 44100
 
 count = int(args.chunksize) - 5
 
 while True:
     print("Deadlistener " + str(listencount))
-    p = subprocess.Popen('python deadlistener_integration_test_hardcode.py' + " " + args.foldername + " " + str(listencount)+ " " + args.chunksize + " " + args.samplerate)
+    p = subprocess.Popen('python -W ignore deadlistener_integration_test_hardcode.py' + " " + args.foldername + " " + str(listencount)+ " " + args.chunksize + " " + str(sample))
     listencount += 1
     time.sleep(count)
     if msvcrt.kbhit():

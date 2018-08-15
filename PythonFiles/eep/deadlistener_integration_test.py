@@ -140,6 +140,7 @@ from pydub import AudioSegment
 
 sound = AudioSegment.from_wav(filename)
 sound = sound.set_channels(1)
+sound = sound.set_frame_rate(44100)
 sound.export(filename, format="wav")
 
 
