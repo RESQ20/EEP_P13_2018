@@ -4,6 +4,10 @@ import argparse
 import os
 import time
 
+#set the environment variable to use to talk to our test Google project - the below JSON key is in use.  If there's dev time, this should be set from the interface to use a specified key
+cwd = os.getcwd()
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = cwd + "\EEP tests-6d6be0f4575b.json"
+
 defaultframes = 512
 filecount = 1
 
@@ -37,6 +41,8 @@ parser.add_argument("folderout")
 parser.add_argument("reccount")
 parser.add_argument("chunksize")
 parser.add_argument("samplerate")
+parser.add_argument("deviceid")
+
 args = parser.parse_args()
 
 #foldernametime = args.folderout + " " + time.strftime("%Y-%m-%d %H-%M-%S")
@@ -75,7 +81,7 @@ if default_device_index == -1:
 
 # temorarily hardcoding device input
 
-device_id = 9
+device_id = int(args.deviceid)
     
 #device_id = int(input("Choose device [" + textcolors.blue + str(default_device_index) + textcolors.end + "]: ") or default_device_index)
 print ("")

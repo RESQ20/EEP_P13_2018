@@ -1,0 +1,6 @@
+Transcript: two different types of exam the first one is a national standardized test a multiple-choice file you have to take
+Confidence: 0.8473867774009705
+2018-08-15 17:20:25
+Transcript: and a high score I would say like 84% or more accurately right to be allowed to take
+Confidence: 0.8581044673919678
+2018-08-15 17:20:36

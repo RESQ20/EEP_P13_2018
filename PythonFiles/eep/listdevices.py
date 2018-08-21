@@ -30,7 +30,7 @@ except IOError:
 
 #Select Device
 
-print (textcolors.blue + "Available devices:\n" + textcolors.end)
+print ("Available devices:")
 for i in range(0, p.get_device_count()):
     info = p.get_device_info_by_index(i)
     print (str(info["index"]) + ": \t %s \t %s" % (info["name"], p.get_host_api_info_by_index(info["hostApi"])["name"]))
