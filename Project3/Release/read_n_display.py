@@ -5,7 +5,7 @@
 # **********************************************
 
 
-input_file = 'C:\EEP-P13\IM-Proj\Sample_transcript.txt'
+input_file = 'C:\EEP-P13\IM-Proj\TEST\Sample_transcript.txt'
 
 def getFileName():
 

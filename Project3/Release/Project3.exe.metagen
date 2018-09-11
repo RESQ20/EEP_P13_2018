@@ -17,3 +17,29 @@ Assembly System.Xml, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c5619
 Class Project3.MyForm: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
   :System.Windows.Forms.Form
     Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Fields:
+    AddReadDisplay myDelegate : Public
+    ImportReadDisplay myDelegate2 : Public
+  Methods:
+    AddReadDisplayMethod(): PrivateScope, Public, HideBySig
+    ImportReadDisplayMethod(): PrivateScope, Public, HideBySig
+    main(): PrivateScope, Public, HideBySig
+Class Project3.MyForm+AddReadDisplay: AutoLayout, AnsiClass, Class, NestedPublic, Sealed, BeforeFieldInit
+  :System.MulticastDelegate
+    Void .ctor(System.Object, IntPtr): PrivateScope, Public, SpecialName, RTSpecialName
+  Methods:
+    Invoke(): PrivateScope, Public, Final, Virtual, VtableLayoutMask
+    BeginInvoke(AsyncCallback, Object): PrivateScope, Public, Final, Virtual, VtableLayoutMask
+    EndInvoke(IAsyncResult): PrivateScope, Public, Final, Virtual, VtableLayoutMask
+Class Project3.MyForm+ImportReadDisplay: AutoLayout, AnsiClass, Class, NestedPublic, Sealed, BeforeFieldInit
+  :System.MulticastDelegate
+    Void .ctor(System.Object, IntPtr): PrivateScope, Public, SpecialName, RTSpecialName
+  Methods:
+    Invoke(): PrivateScope, Public, Final, Virtual, VtableLayoutMask
+    BeginInvoke(AsyncCallback, Object): PrivateScope, Public, Final, Virtual, VtableLayoutMask
+    EndInvoke(IAsyncResult): PrivateScope, Public, Final, Virtual, VtableLayoutMask
+Class Project3.MyThreadClass: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+    Void .ctor(Project3.MyForm): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Methods:
+    Run(): PrivateScope, Public, HideBySig
+    Run2(): PrivateScope, Public, HideBySig
