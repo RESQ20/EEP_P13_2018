@@ -6,7 +6,7 @@ import time
 
 #set the environment variable to use to talk to our test Google project - the below JSON key is in use.  If there's dev time, this should be set from the interface to use a specified key
 cwd = os.getcwd()
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = cwd + "\EEP tests-6d6be0f4575b.json"
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "C:\projects\JSON keys\EEP tests-27600e05a4b3.json"
 
 defaultframes = 512
 filecount = 1
