@@ -3,6 +3,8 @@ import wave
 import argparse
 import os
 import time
+from io import StringIO
+import csv
 
 #set the environment variable to use to talk to our test Google project - the below JSON key is in use.  If there's dev time, this should be set from the interface to use a specified key
 cwd = os.getcwd()
@@ -10,6 +12,21 @@ os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "C:\projects\JSON keys\EEP tests-
 
 defaultframes = 512
 filecount = 1
+
+#keyword import
+
+keyword1,keyword,keyword3,keyword4,keyword5,keyword6,keyword7,keyword8,keyword9,keyword10 = ("|","|","|","|","|","|","|","|","|","|")
+
+
+with open('testkeywords.csv') as csvfile:
+    reader = csv.reader(csvfile, delimiter=',')
+    keyword_list = next(reader)
+
+max = len(keyword_list)
+
+for n, val in enumerate(keyword_list):
+        globals()["keyword%d"%n] = val
+
 
 class textcolors:
     blue = '\033[94m'
@@ -239,15 +256,17 @@ def transcribe_file(speech_file):
         encoding=enums.RecognitionConfig.AudioEncoding.LINEAR16,
         sample_rate_hertz=int(args.samplerate),
         language_code='en-US',
+        # alternative_language_codes='yue-Hant-HK',
         use_enhanced=True,
         # A model must be specified to use enhanced model.
         model='phone_call',
         enable_automatic_punctuation=False,
         enable_word_time_offsets=False,
         profanity_filter=True,
-#        speech_contexts=[speech.types.SpeechContext(
- #           phrases=['Andy', 'Wisy', 'EEP', 'Project', 'Tom', 'Jeff'],
-  #          )],
+        enable_speaker_diarization=True,
+        speech_contexts=[speech_v1p1beta1.types.SpeechContext(
+                phrases=[keyword1, keyword2, keyword3, keyword4, keyword5, keyword6, keyword7, keyword8, keyword9, keyword10],
+        )],
         )
 
     # [START migration_async_response]

@@ -3,30 +3,9 @@ import wave
 import argparse
 import os
 import time
-from io import StringIO
-import csv
-
-#set the environment variable to use to talk to our test Google project - the below JSON key is in use.  If there's dev time, this should be set from the interface to use a specified key
-cwd = os.getcwd()
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "C:\projects\JSON keys\EEP tests-27600e05a4b3.json"
 
 defaultframes = 512
 filecount = 1
-
-#keyword import
-
-keyword1,keyword,keyword3,keyword4,keyword5,keyword6,keyword7,keyword8,keyword9,keyword10 = ("|","|","|","|","|","|","|","|","|","|")
-
-
-with open('testkeywords.csv') as csvfile:
-    reader = csv.reader(csvfile, delimiter=',')
-    keyword_list = next(reader)
-
-max = len(keyword_list)
-
-for n, val in enumerate(keyword_list):
-        globals()["keyword%d"%n] = val
-
 
 class textcolors:
     blue = '\033[94m'
@@ -56,10 +35,8 @@ from argparse import ArgumentParser
 parser = argparse.ArgumentParser()
 parser.add_argument("folderout")
 parser.add_argument("reccount")
-parser.add_argument("chunksize")
+parser.add_argument("chunksize", type=int)
 parser.add_argument("samplerate")
-parser.add_argument("deviceid")
-
 args = parser.parse_args()
 
 #foldernametime = args.folderout + " " + time.strftime("%Y-%m-%d %H-%M-%S")
@@ -74,7 +51,8 @@ if not os.path.exists("Audio_Output_"+foldernametime):
 if not os.path.exists("Trans_Output_"+foldernametime):
     os.makedirs("Trans_Output_"+foldernametime)
 
-
+print("I am Deadlistenter in Project3/Project3")
+      
 # print (args.folderout)
 # print (reccount)
 #print ("Outputing to " + foldernametime + "\n")
@@ -98,7 +76,7 @@ if default_device_index == -1:
 
 # temorarily hardcoding device input
 
-device_id = int(args.deviceid)
+device_id = 4
     
 #device_id = int(input("Choose device [" + textcolors.blue + str(default_device_index) + textcolors.end + "]: ") or default_device_index)
 print ("")
@@ -124,7 +102,7 @@ else:
         exit()
 # recordtime initially being hardset for 10 seconds
 # recordtime = int(input("Record time in seconds [" + textcolors.blue + str(recordtime) + textcolors.end + "]: ") or recordtime)
-recordtime = 10
+#recordtime = 10
 # start a loop here potentially for chopping audio into pieces
 
 
@@ -154,6 +132,8 @@ stream.close()
 
 #Close module
 p.terminate()
+
+print("I am Deadlistenter in Project3/Project3 -- 2")
 
 os.chdir("Audio_Output_"+foldernametime)
 
@@ -233,7 +213,7 @@ def transcribe_file(speech_file):
     from google.cloud import speech_v1p1beta1
     from google.cloud.speech_v1p1beta1 import enums
     from google.cloud.speech_v1p1beta1 import types
-    client = speech.SpeechClient()
+    client = speech_v1p1beta1.SpeechClient()
 
     # [START migration_async_request]
     with io.open(speech_file, 'rb') as audio_file:
@@ -262,9 +242,9 @@ def transcribe_file(speech_file):
         enable_automatic_punctuation=False,
         enable_word_time_offsets=False,
         profanity_filter=True,
-        speech_contexts=[speech.types.SpeechContext(
-                phrases=['Andy', 'Wisy', 'EEP', 'Project', 'Tom', 'Jeff'],
-        )],
+#        speech_contexts=[speech.types.SpeechContext(
+ #           phrases=['Andy', 'Wisy', 'EEP', 'Project', 'Tom', 'Jeff'],
+  #          )],
         )
 
     # [START migration_async_response]
@@ -274,7 +254,7 @@ def transcribe_file(speech_file):
     os.chdir("Trans_Output_"+foldernametime)
 
     with open("output_transcription.txt", "a") as myfile:
-        myfile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S")+ "\n")
+        #myfile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S")+ "\n")
         #myfile.write(' - Starting a new transcription.......\n')
 
 
@@ -288,10 +268,12 @@ def transcribe_file(speech_file):
             print(('Transcript: {}'.format(result.alternatives[0].transcript)))
             print(('Confidence: {}'.format(result.alternatives[0].confidence)))
             with open("output_transcription.txt", "a") as myfile:
-                        myfile.write(('Transcript: {}'.format(result.alternatives[0].transcript))+ "\n")
-                        myfile.write(('Confidence: {}'.format(result.alternatives[0].confidence))+ "\n")
+                myfile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S -"))
+                myfile.write((' {}'.format(result.alternatives[0].transcript))+ "\n")
+                #myfile.write(('Confidence: {}'.format(result.alternatives[0].confidence))+ "\n")
         with open("output_transcription.txt", "a") as myfile:
             myfile.write('')
+            myfile.close()
             # [END migration_async_response]
 
 
