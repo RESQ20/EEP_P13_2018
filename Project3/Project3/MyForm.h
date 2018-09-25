@@ -20,6 +20,7 @@ namespace Project3 {
 	using namespace System::IO;
 
 	bool thread1_run = true;
+	bool thread7_run = true;
 	bool thread2_run = true;
 	bool thread3_run = true;
 	bool thread4_run = true;
@@ -28,7 +29,11 @@ namespace Project3 {
 	bool trans_update = true;
 	int lastWordIdx = 0;
 	bool trans_printed = false;
-	
+	int wavFileIdx = 1;
+	int transFileIdx = 1;
+	//int chunkSize = 33;
+	int chunkSize = 11;
+
 	ref struct MyGlobals {
 		static String ^ StartTimestamp;
 		static String ^ wavFolderName;
@@ -52,6 +57,7 @@ namespace Project3 {
 		MyForm(void)
 		{
 			thread1 = gcnew Thread(gcnew ThreadStart(this, &Project3::MyForm::recAndTrans));
+			thread7 = gcnew Thread(gcnew ThreadStart(this, &Project3::MyForm::doTrans));
 			//thread2 = gcnew Thread(gcnew ThreadStart(this, &Project3::MyForm::checkUpdFile));
 			thread4 = gcnew Thread(gcnew ThreadStart(this, &Project3::MyForm::transImport));
 			//thread3 = gcnew Thread(gcnew ThreadStart(this, &Project3::MyForm::readDisplay));
@@ -87,7 +93,7 @@ namespace Project3 {
 			this->richTextBox2->Width += 100;
 			this->richTextBox2->Height += 100;
 
-			//system("setup.cmd");
+			system("setup.cmd");
 
 
 
@@ -133,18 +139,18 @@ namespace Project3 {
 				String ^ tranStr;
 
 				DateTime testDt = File::GetLastWriteTime(MyGlobals::transFileName);
-				Console::WriteLine("We now reading, lastWriteTime - TEST, " + testDt + ", " + MyGlobals::transFileName);
+				//Console::WriteLine("We now reading, lastWriteTime - TEST, " + testDt + ", " + MyGlobals::transFileName);
 
 				if (MyGlobals::trans_update_dt != testDt) {
-					Console::WriteLine("old trans_update_dt ---" + MyGlobals::trans_update_dt);
-					Console::WriteLine("new trans_update_dt ---" + testDt);
+					//Console::WriteLine("old trans_update_dt ---" + MyGlobals::trans_update_dt);
+					//Console::WriteLine("new trans_update_dt ---" + testDt);
 
 					MyGlobals::trans_update_dt = testDt;
 					trans_update = true;
 				}
 
 				if (trans_update) {
-					Console::WriteLine("File update_dt CHANGED!!!");
+					//Console::WriteLine("File update_dt CHANGED!!!");
 					richTextBox2->Text = "";
 
 					while ((tranStr = sr->ReadLine()) != nullptr)
@@ -153,7 +159,7 @@ namespace Project3 {
 						//MyGlobals::richTextBox2->Text = "hello";
 						richTextBox2->AppendText(tranStr + "\n");
 						//richTextBox2->Text = tranStr + "\n";
-						Console::WriteLine(tranStr);
+						//Console::WriteLine(tranStr);
 						//richTextBox2->SendToBack();
 						//backgroundWorker1->RunWorkerAsync();
 						//if (richTextBox2->InvokeRequired) {
@@ -174,7 +180,7 @@ namespace Project3 {
 			}
 			catch (Exception ^ e)
 			{
-				Console::WriteLine("ERROR: Read trans file" + e);
+				//Console::WriteLine("ERROR: Read trans file" + e);
 			}
 
 	
@@ -191,7 +197,7 @@ namespace Project3 {
 					String ^ tranStr;
 
 					//DateTime testDt = File::GetLastWriteTime(MyGlobals::transFileName);
-					Console::WriteLine("import file transcripts ---- " + MyGlobals::transFileName);
+					//Console::WriteLine("import file transcripts ---- " + MyGlobals::transFileName);
 
 					/*if (MyGlobals::trans_update_dt != testDt) {
 					Console::WriteLine("old trans_update_dt ---" + MyGlobals::trans_update_dt);
@@ -208,7 +214,7 @@ namespace Project3 {
 					while ((tranStr = sr->ReadLine()) != nullptr)
 					{
 						richTextBox2->AppendText(tranStr + "\n");
-						Console::WriteLine(tranStr);
+						//Console::WriteLine(tranStr);
 						trans_printed = true;
 					};
 					sr->Close();
@@ -216,11 +222,11 @@ namespace Project3 {
 				}
 				catch (Exception ^ e)
 				{
-					Console::WriteLine("ERROR: Read trans file" + e);
+					//Console::WriteLine("ERROR: Read trans file" + e);
 				}
 
 				if (trans_printed) {
-					Console::WriteLine("Confirm trans_printed");
+					//Console::WriteLine("Confirm trans_printed");
 					richTextBox2->AppendText("<TRANSCRIPTION END>\n");
 					thread4_run = false;
 					thread5_run = false;
@@ -270,6 +276,7 @@ namespace Project3 {
 
 
 	private: Thread ^ thread1;
+	private: Thread ^ thread7;
 	//private: Thread ^ thread2;
 	private: Thread ^ thread3;
 	private: Thread ^ thread4;
@@ -627,7 +634,7 @@ namespace Project3 {
 			using namespace System::IO;
 			try {
 				if (Directory::Exists(MyGlobals::wavFolderName)) {
-					Console::WriteLine("WAV Directory already exists.");
+					//Console::WriteLine("WAV Directory already exists.");
 				}
 				else {
 					DirectoryInfo ^ di = Directory::CreateDirectory(MyGlobals::wavFolderName);
@@ -635,12 +642,12 @@ namespace Project3 {
 
 			}
 			catch (Exception ^ e) {
-				Console::WriteLine("Failed to create WAV directory " + MyGlobals::wavFolderName, e);
+				//Console::WriteLine("Failed to create WAV directory " + MyGlobals::wavFolderName, e);
 			}
 
 			try {
 				if (Directory::Exists(MyGlobals::transFolderName)) {
-					Console::WriteLine("TRANS Directory already exists.");
+					//Console::WriteLine("TRANS Directory already exists.");
 				}
 				else {
 					DirectoryInfo ^ di = Directory::CreateDirectory(MyGlobals::transFolderName);
@@ -648,7 +655,7 @@ namespace Project3 {
 
 			}
 			catch (Exception ^ e) {
-				Console::WriteLine("Failed to create TRANS directory " + MyGlobals::transFolderName, e);
+				//Console::WriteLine("Failed to create TRANS directory " + MyGlobals::transFolderName, e);
 			}
 
 			//FileStream^ fs = gcnew FileStream(MyGlobals::transFileName, FileMode::Create);
@@ -662,6 +669,10 @@ namespace Project3 {
 			thread1->Name = "recAndTransThread";
 			thread1_run = true;
 			thread1->Start();
+
+			thread7->Name = "doTransThread";
+			thread7_run = true;
+			thread7->Start();
 
 			//Thread^ thread2 = gcnew Thread(gcnew ThreadStart(this, &Project3::MyForm::checkUpdFile));
 			//thread2->Name = "checkUpdFileThread";
@@ -788,9 +799,12 @@ private: void recAndTrans() {
 	Py_Finalize();
 	*/
 
-	int listencount = 1;
+	//int listencount = 1;
+	wavFileIdx = 1;
 	int sample = 44100;
-	int chunksize = 20;
+	//int chunksize = 25;
+	//int chunksize = 30;
+	//int chunksize = 10;
 	//int chunksize = 15;
 	//int chunksize = 60;
 	int count = 0;
@@ -798,28 +812,135 @@ private: void recAndTrans() {
 	std::string commandStr = "";
 	const char* commandChar;
 
-	count = chunksize - 5;
-//	count = chunksize - 3;
+	//count = chunksize - 10;
+	//count = chunksize - 5;
+	count = 1;
+	//count = chunksize - 3;
+
+using namespace Runtime::InteropServices;
+
+while (thread1_run) {
+	//Console::WriteLine("Thread - recAndTrans - Loop for Python to record ===== Deadlistener \r\n" + listencount);
+
+	commandString = "python -W ignore C:\\Users\\Wisy\\source\\repos\\Project3\\Project3\\deadlistener_only_hardcode.py " + MyGlobals::folderParameter + " " + wavFileIdx + " " + chunkSize + " " + sample;
+	//commandString = "python -W ignore C:\\Users\\Wisy\\source\\repos\\Project3\\Project3\\deadlistener_integration_test_hardcode.py " + MyGlobals::folderParameter + " " + listencount + " " + chunksize + " " + sample;
+	commandChar = (const char*)(Marshal::StringToHGlobalAnsi(commandString)).ToPointer();
+	commandStr = commandChar;
+	Marshal::FreeHGlobal(IntPtr((void*)commandChar));
+
+	system(commandStr.c_str());
+
+	//Console::WriteLine("python -W ignore C:\\Users\\Wisy\\source\\repos\\Project3\\Project3\\deadlistener_integration_test_hardcode.py " + MyGlobals::folderParameter + " " + listencount + " " + chunksize + " " + sample);
+
+	wavFileIdx += 1;
+
+	//Thread::Sleep(count * 100);
+}
+}
+private: void doTrans() {
+	Console::WriteLine("Thread -- Do Trans");
+
+	FileSystemWatcher ^watcher = gcnew FileSystemWatcher();
+	watcher->Path = MyGlobals::wavFolderName;
+	watcher->NotifyFilter = NotifyFilters::LastWrite;
+	watcher->Filter = "*.wav";
+	watcher->Changed += gcnew FileSystemEventHandler(OnChanged);
+	//watcher->Created += gcnew FileSystemEventHandler(OnChanged);
+	//watcher->Deleted += gcnew FileSystemEventHandler(OnChanged);
+
+	watcher->EnableRaisingEvents = true;
+
+	//while (thread7_run) {
+	//	Console::WriteLine("Do Trans " + watcher->Path);
+	//	Thread::Sleep(5000);
+	//}
+
+	/*int listencount = 1;
+	int sample = 44100;
+	//int chunksize = 25;
+	//int chunksize = 30;
+	int chunksize = 10;
+	//int chunksize = 15;
+	//int chunksize = 60;
+	int count = 0;
+	String ^ commandString = "";
+	std::string commandStr = "";
+	const char* commandChar;
+
+	//count = chunksize - 10;
+	//count = chunksize - 5;
+	count = 1;
+	//count = chunksize - 3;
 
 	using namespace Runtime::InteropServices;
 
-	while (thread1_run) {
-		Console::WriteLine("Thread - recAndTrans - Loop for Python to record ===== Deadlistener \r\n" + listencount);
-		
-		commandString = "python -W ignore deadlistener_integration_test_hardcode.py " + MyGlobals::folderParameter + " " + listencount + " " + chunksize + " " + sample;
+	listencount = wavFileIdx;
+
+	while (thread7_run) {
+		Console::WriteLine("Thread - doTrans - Loop for Python to record ===== TRANSCRIPTER \r\n" + listencount);
+
+		if (listencount == wavFileIdx) {
+			commandString = "python -W ignore C:\\Users\\Wisy\\source\\repos\\Project3\\Project3\\transcript_only_hardcode.py " + MyGlobals::folderParameter + " " + wavFileIdx + " " + chunksize + " " + sample;
+			//commandString = "python -W ignore C:\\Users\\Wisy\\source\\repos\\Project3\\Project3\\deadlistener_integration_test_hardcode.py " + MyGlobals::folderParameter + " " + listencount + " " + chunksize + " " + sample;
+			commandChar = (const char*)(Marshal::StringToHGlobalAnsi(commandString)).ToPointer();
+			commandStr = commandChar;
+			Marshal::FreeHGlobal(IntPtr((void*)commandChar));
+
+			system(commandStr.c_str());
+
+			//Console::WriteLine("python -W ignore C:\\Users\\Wisy\\source\\repos\\Project3\\Project3\\deadlistener_integration_test_hardcode.py " + MyGlobals::folderParameter + " " + listencount + " " + chunksize + " " + sample);
+		}
+		listencount += 1;
+
+		Thread::Sleep(count * 100);
+	}
+	*/
+}
+
+private: static void OnChanged(Object^ source, FileSystemEventArgs^ e)
+{
+	// Specify what is done when a file is changed, created, or deleted.
+	//Console::WriteLine("File: " + wavFileIdx + " " + transFileIdx);
+	//Console::WriteLine(e->FullPath);
+	//Console::WriteLine(e->ChangeType);
+
+	int sample = 44100;
+	//int chunksize = 10;
+	String ^ commandString = "";
+	std::string commandStr = "";
+	const char* commandChar;
+
+	using namespace Runtime::InteropServices;
+
+	String ^recFile = "\chunkrecordedaudio";
+	String ^transToBe = MyGlobals::wavFolderName + recFile + transFileIdx + ".wav";
+	//Console::WriteLine("Tobe -- " + transToBe);
+
+	/*if (String::Compare(e->FullPath, transToBe, StringComparison::OrdinalIgnoreCase) == 0) {
+		Console::WriteLine("change path same to To BE");
+	}
+	else {
+		Console::WriteLine("change path different to To BE");
+
+	}*/
+
+	if ((String::Compare(e->FullPath, transToBe, StringComparison::OrdinalIgnoreCase) == 0) || wavFileIdx > transFileIdx){
+		//Console::WriteLine("Let's do transcription!!!");
+
+		commandString = "python -W ignore C:\\Users\\Wisy\\source\\repos\\Project3\\Project3\\transcript_only_hardcode.py " + MyGlobals::folderParameter + " " + transFileIdx + " " + chunkSize + " " + sample;
+		//commandString = "python -W ignore C:\\Users\\Wisy\\source\\repos\\Project3\\Project3\\deadlistener_integration_test_hardcode.py " + MyGlobals::folderParameter + " " + listencount + " " + chunksize + " " + sample;
 		commandChar = (const char*)(Marshal::StringToHGlobalAnsi(commandString)).ToPointer();
 		commandStr = commandChar;
 		Marshal::FreeHGlobal(IntPtr((void*)commandChar));
-		
+
 		system(commandStr.c_str());
 
-		Console::WriteLine("python -W ignore deadlistener_integration_test_hardcode.py " + MyGlobals::folderParameter + " " + listencount + " " + chunksize + " " + sample);
-
-		listencount += 1;
-
-		Thread::Sleep(count*1000);
+		transFileIdx += 1;
 	}
 }
+
+
+
 //public: void checkUpdFile(System::Windows::Forms::RichTextBox richTB) {
 /*private: void checkUpdFile() {
 
@@ -870,10 +991,10 @@ private: System::Void button2_Click(System::Object^  sender, System::EventArgs^ 
 	if (pModule)
 	{
 		//textBox1->Text = textBox1->Text + "\r\npModule well imported";
-		Console::WriteLine("YES: Module well imported");
+		//Console::WriteLine("YES: Module well imported");
 	}
 	else {
-		Console::WriteLine("ERROR: pModule not imported");
+		//Console::WriteLine("ERROR: pModule not imported");
 		//exit(1);
 	}
 
@@ -960,6 +1081,7 @@ private: System::Void button2_Click(System::Object^  sender, System::EventArgs^ 
 }
 private: System::Void button3_Click(System::Object^  sender, System::EventArgs^  e) {
 	thread1_run = false;
+	thread7_run = false;
 	thread2_run = false;
 	thread3_run = false;
 	main_thread_run = false;
@@ -1010,7 +1132,7 @@ private: System::Void button5_Click(System::Object^  sender, System::EventArgs^ 
 		// Displays a SaveFileDialog so the user can save the Image  
 		// assigned to Button2.  
 
-	Console::WriteLine("Export button clicked");
+	//Console::WriteLine("Export button clicked");
 
 	using namespace System::IO;
 		SaveFileDialog^ saveFileDialog1 = gcnew SaveFileDialog();
@@ -1043,7 +1165,7 @@ private: System::Void button5_Click(System::Object^  sender, System::EventArgs^ 
 					// Saves the Image in the appropriate ImageFormat based upon the  
 					// File type selected in the dialog box.  
 					// NOTE that the FilterIndex property is one-based.  
-					Console::WriteLine("save file");
+					//Console::WriteLine("save file");
 					//fs->Close();
 				}
 
@@ -1068,22 +1190,22 @@ private: System::Void listView1_MouseDown(System::Object^  sender, System::Windo
 	//Console::WriteLine("selected: " + index + "," + selection->Text);
 }
 private: System::Void listView1_AfterLabelEdit(System::Object^ sender, System::Windows::Forms::LabelEditEventArgs^ e) {
-	Console::WriteLine("after label edit, new label:" + e->Label + "/");
+	//Console::WriteLine("after label edit, new label:" + e->Label + "/");
 	String ^emptyStr = "";
 	if (String::IsNullOrEmpty(e->Label)) {
-		Console::WriteLine("eLabel:" + e->Label + "/");
-		Console::WriteLine("Empty :" + emptyStr + "/");
+		//Console::WriteLine("eLabel:" + e->Label + "/");
+		//Console::WriteLine("Empty :" + emptyStr + "/");
 		return;
 	}
 	int index = e->Item;
 	System::Drawing::Rectangle ^rect = listView1->GetItemRect(index);
-	Console::WriteLine("E rect: ," + rect->X + "-" + rect->Y);
+	//Console::WriteLine("E rect: ," + rect->X + "-" + rect->Y);
 	listView1->GetItemAt(rect->X, rect->Y)->Text = e->Label;
 	ListViewItem ^ li = listView1->GetItemAt(rect->X, rect->Y);
-	Console::WriteLine("E text: ," + index + "+" + li->Text);
+	//Console::WriteLine("E text: ," + index + "+" + li->Text);
 
 	if (index == lastWordIdx && String::Compare(e->Label, "<Add new word>",StringComparison::OrdinalIgnoreCase) != 0 && lastWordIdx < 20) {
-		Console::WriteLine("added new word:"+lastWordIdx);
+		//Console::WriteLine("added new word:"+lastWordIdx);
 		ListViewItem ^ itemN = gcnew System::Windows::Forms::ListViewItem("<Add new word>");
 		itemN->SubItems->Add("<Add new word>");
 		listView1->Items->Add(itemN);
@@ -1092,17 +1214,18 @@ private: System::Void listView1_AfterLabelEdit(System::Object^ sender, System::W
 	saveCustom_Word();
 }
 private: void saveCustom_Word() {
-	Console::WriteLine("Save Custom Words");
+	//Console::WriteLine("Save Custom Words");
 
 	StreamWriter^ writer;
 	try {
-		writer = gcnew StreamWriter("C:\\Users\\Wisy\\source\\repos\\Project3\\Project3\\customWord.csv", false);
+		//writer = gcnew StreamWriter("C:\\Users\\Wisy\\source\\repos\\Project3\\Project3\\customWord.csv", false);
+		writer = gcnew StreamWriter("C:\\Users\\Wisy\\source\\repos\\Project3\\Project3\\keywords.csv", false);
 		for each(ListViewItem^ li in listView1->Items)
 			writer->WriteLine(li->Text + ",");
 		writer->Close();
 	}
 	catch (Exception ^ e) {
-		Console::WriteLine("ERROR - write custom word ", e);
+		//Console::WriteLine("ERROR - write custom word ", e);
 	}
 
 }
@@ -1185,7 +1308,7 @@ private: System::Void listView1_DrawColumnHeader(System::Object^ sender, System:
 }
 
 private: System::Void button6_Click(System::Object^  sender, System::EventArgs^  e) {
-		Console::WriteLine("Searching button clicked");
+		//Console::WriteLine("Searching button clicked");
 
 		int start = 0;
 		int end = richTextBox2->Text->LastIndexOf(textBox3->Text);
@@ -1202,7 +1325,7 @@ private: System::Void button6_Click(System::Object^  sender, System::EventArgs^ 
 		}
 }
 private: System::Void button7_Click(System::Object^  sender, System::EventArgs^  e) {
-	Console::WriteLine("open clicked");
+	//Console::WriteLine("open clicked");
 
 	// Displays an OpenFileDialog so the user can select a Cursor.  
 	OpenFileDialog ^ openFileDialog1 = gcnew OpenFileDialog();
@@ -1222,10 +1345,11 @@ private: System::Void button7_Click(System::Object^  sender, System::EventArgs^ 
 		button1->Enabled = false;
 		button3->Enabled = false;
 		button8->Enabled = true;
+		textBox2->Enabled = false;
 	}
 }
 private: System::Void button8_Click(System::Object^  sender, System::EventArgs^  e) {
-	Console::WriteLine("play clicked");
+	//Console::WriteLine("play clicked");
 	button7->Enabled = false;
 	button5->Enabled = true;
 	textBox2->ReadOnly = true;
@@ -1253,7 +1377,7 @@ private: System::Void button8_Click(System::Object^  sender, System::EventArgs^ 
 	using namespace System::IO;
 	try {
 		if (Directory::Exists(MyGlobals::transFolderName)) {
-			Console::WriteLine("TRANS Directory already exists.");
+			//Console::WriteLine("TRANS Directory already exists.");
 		}
 		else {
 			DirectoryInfo ^ di = Directory::CreateDirectory(MyGlobals::transFolderName);
@@ -1261,7 +1385,7 @@ private: System::Void button8_Click(System::Object^  sender, System::EventArgs^ 
 
 	}
 	catch (Exception ^ e) {
-		Console::WriteLine("Failed to create TRANS directory " + MyGlobals::transFolderName, e);
+		//Console::WriteLine("Failed to create TRANS directory " + MyGlobals::transFolderName, e);
 	}
 
 
@@ -1286,9 +1410,9 @@ private: void transImport() {
 
 	using namespace Runtime::InteropServices;
 
-	Console::WriteLine("python -W ignore transcribe_async_short_file3_44.py " + MyGlobals::importFileName + " " + MyGlobals::folderParameter);
+	//Console::WriteLine("python -W ignore C:\\Users\\Wisy\\source\\repos\\Project3\\Project3\\transcribe_async_short_file3_44.py " + MyGlobals::importFileName + " " + MyGlobals::folderParameter);
 
-	commandString = "python -W ignore transcribe_async_short_file3_44.py " + MyGlobals::importFileName + " " + MyGlobals::folderParameter;
+	commandString = "python -W ignore C:\\Users\\Wisy\\source\\repos\\Project3\\Project3\\transcribe_async_short_file3_44.py " + MyGlobals::importFileName + " " + MyGlobals::folderParameter;
 	commandChar = (const char*)(Marshal::StringToHGlobalAnsi(commandString)).ToPointer();
 	commandStr = commandChar;
 	Marshal::FreeHGlobal(IntPtr((void*)commandChar));
@@ -1297,7 +1421,7 @@ private: void transImport() {
 
 }
 private: System::Void textBox3_Click(System::Object^  sender, System::EventArgs^  e) {
-	Console::WriteLine("Searching text clicked");
+	//Console::WriteLine("Searching text clicked");
 
 	textBox3->Text = "";
 	textBox3->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
